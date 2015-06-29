@@ -1,34 +1,57 @@
 package PrimeFX;
 
+import javafx.application.Platform;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TextField;
+
+import java.util.concurrent.CountDownLatch;
+
 
 public class Controller {
     @FXML
     private int numToCheck;
     @FXML
-    private TextArea num;
+    private TextField num;
     @FXML
     private int rangeMin, rangeMax;
     @FXML
-    private TextArea rangeStart, rangeEnd;
+    private TextField rangeStart, rangeEnd;
+    @FXML
+    private Label primeLabel;
+    @FXML
+    private ProgressIndicator progressIndicatorOne, progressIndicatorRange;
 
     @FXML
-    protected void setNumToCheck() {
+    private int intParser(String stringToTurnIntoInt) {
+        int convertedInt;
+        stringToTurnIntoInt = stringToTurnIntoInt.replaceAll("\\D+","");
+        convertedInt = Integer.parseInt(stringToTurnIntoInt);
+        return convertedInt;
+    }
+
+    @FXML
+    protected void singleNumToCheck() {
         String numString = num.getText();
-        numString = numString.replaceAll("\\D+","");
-        numToCheck = Integer.parseInt(numString);
+        numToCheck = intParser(numString);
+        String isPrimeStr = checkIntPassOne(numToCheck) + "";
+        primeLabel.setText("The number " + numToCheck + " is prime: " + isPrimeStr);
     }
 
     @FXML
     protected boolean checkIntPassOne(int intToCheck) {
+        progressIndicatorOne.setProgress(0);
         boolean isPrime = false;
-        if ((intToCheck <= 1) || (intToCheck % 2 == 0)) {
-            isPrime = false;
-        } else if ((intToCheck == 2) || (intToCheck == 3)) {
+        if ((intToCheck == 2) || (intToCheck == 3)) {
             isPrime = true;
+        } else if ((intToCheck <= 1) || (intToCheck % 2 == 0)) {
+            isPrime = false;
         } else if (intToCheck > 3) {
             for(int n = 1; n < intToCheck; n++) {
+                progressIndicatorOne.setProgress(n);
                 if ((intToCheck == (6 * n) + 1) || (intToCheck == (6 * n) -1)) {
                     isPrime = checkIntPassTwo(intToCheck);
                     break;
@@ -47,6 +70,11 @@ public class Controller {
             }
         }
         return isPrimePassTwo;
+    }
+
+    @FXML
+    protected void checkRange() {
+
     }
 
 }
