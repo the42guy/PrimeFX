@@ -25,7 +25,7 @@
             <Button layoutX="233.0" layoutY="258.0" mnemonicParsing="false" onAction="#singleNumToCheck" text="Prime?" />
             <Separator layoutX="353.0" layoutY="142.0" orientation="VERTICAL" prefHeight="239.0" prefWidth="3.0" />
             <ProgressIndicator fx:id="progressIndicatorOne" layoutX="342.0" layoutY="427.0" progress="0.0" />
-            <Label fx:id="primeLabel" layoutX="79.0" layoutY="365.0" prefHeight="17.0" prefWidth="245.0" />
+            <Label fx:id="primeLabel" layoutX="79.0" layoutY="365.0" prefHeight="40.0" prefWidth="245.0" />
             <Label layoutX="459.0" layoutY="142.0" text="Find primes in a series:" />
             <TextField layoutX="444.0" layoutY="235.0" promptText="Series begins from ..." />
             <TextField layoutX="444.0" layoutY="280.0" promptText="... And goes until" />
