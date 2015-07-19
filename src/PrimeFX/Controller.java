@@ -3,12 +3,17 @@ package PrimeFX;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+
+import java.util.ArrayList;
 
 
 public class Controller {
     @FXML
     private int numToCheck;
+    @FXML
+    private ArrayList<Integer> primes = new ArrayList<Integer>();
     @FXML
     private TextField num;
     @FXML
@@ -18,7 +23,9 @@ public class Controller {
     @FXML
     private Label primeLabel;
     @FXML
-    private ProgressIndicator progressIndicatorOne, progressIndicatorRange;
+    private ProgressIndicator progressIndicatorOne;
+    @FXML
+    private TextArea primeList;
 
     @FXML
     private int intParser(String stringToTurnIntoInt) {
@@ -40,15 +47,15 @@ public class Controller {
     protected boolean checkIntPassOne(int intToCheck) {
         progressIndicatorOne.setProgress(0);
         boolean isPrime = false;
-        if ((intToCheck == 2) || (intToCheck == 3)) {
+        if ((intToCheck == 2) || (intToCheck == 3) || (intToCheck == 5)) {
             isPrime = true;
+            populatePrimeList(isPrime, intToCheck);
         } else if (intToCheck <= 1) {
             isPrime = false;
-
         } else if (intToCheck % 2 == 0){
             isPrime = false;
             greatestIntFactor = 2;
-        } else if (intToCheck > 3) {
+        } else if (intToCheck > 5) {
             for(int n = 1; n < intToCheck; n++) {
                 progressIndicatorOne.setProgress(n);
                 if ((intToCheck == (6 * n) + 1) || (intToCheck == (6 * n) - 1)) {
@@ -80,12 +87,37 @@ public class Controller {
                 break;
             }
         }
+        populatePrimeList(isPrimePassTwo, passTwoInt);
         return isPrimePassTwo;
     }
 
     @FXML
     protected void checkRange() {
+        rangeMin = intParser(rangeStart.getText());
+        rangeMax = intParser(rangeEnd.getText());
+        primes.clear();
+        primes = new ArrayList<Integer>(rangeMax - rangeMin);
+        for(int i = rangeMin; i <= rangeMax; i++) {
+            checkIntPassOne(i);
+        }
+        writeToPrimeList();
+    }
 
+    @FXML
+    private void populatePrimeList(boolean isPrime, int aPrimeToBeChecked) {
+        if(isPrime) {
+            primes.add(aPrimeToBeChecked);
+        }
+    }
+
+    @FXML
+    private void writeToPrimeList() {
+        int primeLen = primes.size();
+        String primeListText = "Found " + primeLen + " primes in the given series";
+        for(int i = 0; i < primeLen; i++) {
+            primeListText += (i+1) + ": " + primes.get(i) + "\n";
+        }
+        primeList.setText(primeListText);
     }
 
 }
