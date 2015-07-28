@@ -40,7 +40,7 @@ public class Controller {
         String numString = num.getText();
         numToCheck = intParser(numString);
         String isPrimeStr = checkIntPassOne(numToCheck) + "";
-        primeLabel.setText("The number " + numToCheck + " is prime: " + isPrimeStr + "\nThe first integer dividing it is " + greatestIntFactor);
+        primeLabel.setText("The number " + numToCheck + " is prime: " + isPrimeStr + "\n");
     }
 
     @FXML
@@ -54,16 +54,16 @@ public class Controller {
             isPrime = false;
         } else if (intToCheck % 2 == 0){
             isPrime = false;
-            greatestIntFactor = 2;
+            //greatestIntFactor = 2;
         } else if (intToCheck > 5) {
             for(int n = 1; n < intToCheck; n++) {
                 progressIndicatorOne.setProgress(n);
                 if ((intToCheck == (6 * n) + 1) || (intToCheck == (6 * n) - 1)) {
                     isPrime = checkIntPassTwo(intToCheck);
-                    setGreatestIntFactor(isPrime);
+                    //setGreatestIntFactor(isPrime);
                     break;
                 } else {
-                    greatestIntFactor = n;
+                    //greatestIntFactor = n;
                 }
             }
         }
@@ -80,7 +80,7 @@ public class Controller {
     @FXML
     private boolean checkIntPassTwo(int passTwoInt) {
         boolean isPrimePassTwo = true;
-        for (int multiplier = 3; multiplier < passTwoInt/2; multiplier = multiplier + 2) {
+        for (int multiplier = 3; multiplier <= passTwoInt / multiplier; multiplier = multiplier + 2) {
             if (passTwoInt % multiplier == 0) {
                 isPrimePassTwo = false;
                 greatestIntFactor = multiplier;
@@ -113,7 +113,7 @@ public class Controller {
     @FXML
     private void writeToPrimeList() {
         int primeLen = primes.size();
-        String primeListText = "Found " + primeLen + " primes in the given series";
+        String primeListText = "Found " + primeLen + " primes in the given series\n";
         for(int i = 0; i < primeLen; i++) {
             primeListText += (i+1) + ": " + primes.get(i) + "\n";
         }
